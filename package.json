@@ -1,0 +1,30 @@
+{
+  "name": "faq-anywhere",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "npm run build:admin && tsc",
+    "build:admin": "cd admin && npm ci && npm run build",
+    "start": "node dist/index.js",
+    "db:migrate": "prisma migrate deploy",
+    "db:studio": "prisma studio",
+    "postinstall": "prisma generate"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.13.7",
+    "@prisma/client": "^5.22.0",
+    "@slack/bolt": "^3.22.0",
+    "hono": "^4.6.19",
+    "jsonwebtoken": "^9.0.2",
+    "openai": "^4.77.0"
+  },
+  "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/node": "^22.10.7",
+    "prisma": "^5.22.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3"
+  }
+}
