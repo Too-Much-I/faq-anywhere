@@ -133,9 +133,20 @@ Slack 채널에 봇을 초대한 후, 아래 명령어를 사용하세요.
 
 ---
 
-## ☁️ 배포 (Railway / Render)
+## ☁️ 배포
 
 봇이 외부에서 메시지를 받으려면 서버가 항상 켜져 있어야 합니다.
+
+### 원클릭 배포
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/Too-Much-I/faq-anywhere)
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template?template=https://github.com/Too-Much-I/faq-anywhere)
+
+> ⚠️ 버튼을 누른 후에도 아래 환경변수는 직접 입력해야 합니다.
+> - `ADMIN_PASSWORD` — 어드민 페이지 비밀번호
+> - `SLACK_BOT_TOKEN`, `SLACK_SIGNING_SECRET`, `SLACK_APP_TOKEN` — [Slack 앱](https://api.slack.com/apps)에서 발급
+
+### 수동 배포
 
 ```bash
 # 배포 전 빌드
