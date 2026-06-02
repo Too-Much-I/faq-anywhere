@@ -120,3 +120,17 @@ export async function updateFaq(
 export async function deleteFaq(id: string) {
   return prisma.faq.delete({ where: { id } });
 }
+
+export async function findFaqByQuestion(question: string) {
+  return prisma.faq.findFirst({
+    where: { question: { equals: question, mode: "insensitive" } },
+    select: { id: true, question: true, answer: true, category: true },
+  });
+}
+
+export async function findFaqById(id: string) {
+  return prisma.faq.findUnique({
+    where: { id },
+    select: { id: true, question: true, answer: true, category: true },
+  });
+}
