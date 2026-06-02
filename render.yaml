@@ -3,7 +3,7 @@ services:
     name: faq-anywhere
     runtime: node
     buildCommand: npm ci && npm run build
-    startCommand: npm run db:migrate && npm start
+    startCommand: npm run db:migrate && npm run backfill && npm start
     healthCheckPath: /health
     envVars:
       - key: DATABASE_URL
