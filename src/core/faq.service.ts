@@ -2,7 +2,6 @@ import { randomUUID } from "crypto";
 import prisma from "../lib/prisma.js";
 import { getEmbedding } from "./embedding.service.js";
 
-const SIMILARITY_THRESHOLD = 0.7;
 const SEARCH_LIMIT = 3;
 
 const hasOpenAI = () => Boolean(process.env.OPENAI_API_KEY);
@@ -53,7 +52,7 @@ export async function searchFaq(query: string, category?: string) {
         ORDER BY embedding <=> ${vector}::vector
         LIMIT ${SEARCH_LIMIT}`;
 
-  return rows.filter((r) => r.similarity >= SIMILARITY_THRESHOLD);
+  return rows;
 }
 
 export async function listFaqs(category?: string) {
