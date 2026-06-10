@@ -4,6 +4,7 @@ import { Hono } from "hono";
 import { adminRoutes } from "./api/admin.routes.js";
 import { authRoutes } from "./api/auth.routes.js";
 import { startSlackAdapter } from "./adapters/slack/index.js";
+import { startDiscordAdapter } from "./adapters/discord/index.js";
 
 const app = new Hono();
 
@@ -23,3 +24,4 @@ serve({ fetch: app.fetch, port }, () => {
 
 // 플랫폼 어댑터 시작
 startSlackAdapter().catch(console.error);
+startDiscordAdapter().catch(console.error);
