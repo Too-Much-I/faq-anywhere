@@ -34,7 +34,8 @@ export async function startDiscordAdapter() {
     if (message.author.bot) return;
     if (!message.channel.isSendable()) return;
 
-    const text = message.content.trim();
+    const mentionRegex = new RegExp(`<@!?${client.user!.id}>`, "g");
+    const text = message.content.replace(mentionRegex, "").trim();
     if (!text) return;
 
     const userId = message.author.id;
