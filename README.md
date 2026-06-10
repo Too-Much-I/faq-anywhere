@@ -176,7 +176,7 @@ Discord 봇을 사용하려면 Discord Developer Portal에서 애플리케이션
 
 3. 하단에 생성된 URL을 복사해 브라우저에서 열기
 
-<img src="./docs/image6.png">
+<img src="./docs/image7.png">
 
 4. 봇을 추가할 서버 선택 → 권한 승인
 
