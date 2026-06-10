@@ -13,7 +13,7 @@ OpenAI 임베딩 기반의 **의미 검색**을 지원하고, OpenAI API Key가 
 | 📝 FAQ 등록/수정/삭제 | 어드민 웹 페이지 또는 Slack 봇 명령어로 관리 |
 | 🔍 의미 기반 검색 | OpenAI 임베딩으로 유사한 FAQ 자동 매칭 |
 | 💬 Slack 봇 | 채널에서 질문하면 바로 답변 |
-| 🎮 Discord 봇 | (개발 중) |
+| 🎮 Discord 봇 | 채널에서 질문하면 바로 답변 |
 | 🗂️ 카테고리 | FAQ를 카테고리별로 분류 가능 |
 
 ---
@@ -48,6 +48,9 @@ OPENAI_API_KEY=sk-...
 SLACK_BOT_TOKEN=xoxb-...
 SLACK_SIGNING_SECRET=...
 SLACK_APP_TOKEN=xapp-...
+
+# Discord 봇 사용 시
+DISCORD_BOT_TOKEN=...
 ```
 
 ### 2. 의존성 설치 및 DB 마이그레이션
@@ -123,6 +126,69 @@ Slack 채널에 봇을 초대한 후, 아래 명령어를 사용하세요.
 
 ---
 
+## 🎮 Discord 봇 설정
+
+Discord 봇을 사용하려면 Discord Developer Portal에서 애플리케이션을 만들고 토큰을 발급받아야 합니다.
+
+### 1. 애플리케이션 생성
+
+1. [Discord Developer Portal](https://discord.com/developers/applications) 접속 후 로그인
+2. 우측 상단 **만들기** 클릭 → 서버나 커뮤니티용 봇 생성하기 -> 이름 입력 (예: FAQ Anywhere) → **만들기**
+
+#### 우측 상단 만들기 버튼 클릭하기
+<img src="./docs/image1.png">
+
+#### 봇 이름 입력 후 생성하기 
+<img src="./docs/image2.png">
+
+### 2. 봇(Bot) 생성 및 토큰 발급
+
+<img src="./docs/image3.png">
+
+1. 좌측 메뉴에서 **봇** 탭 클릭
+2. **토큰 초기화** 클릭 → 표시된 토큰을 복사
+3. 복사한 토큰을 `.env`의 `DISCORD_BOT_TOKEN`에 붙여넣기
+
+
+
+### 3. Privileged Gateway Intents 활성화 (필수)
+
+같은 **Bot** 탭 하단의 **Privileged Gateway Intents**에서 아래 항목을 켜주세요. 꺼져 있으면 봇이 메시지 내용을 읽지 못해 동작하지 않습니다.
+
+- ✅ **MESSAGE CONTENT INTENT**
+
+<img src="./docs/image4.png">
+
+### 4. 서버에 봇 초대하기
+
+1. 좌측 메뉴에서 **OAuth2 → URL 재생기** 하위에 있는 **SCOPES**에서 `bot` 체크
+
+<img src="./docs/image5.png">
+
+2. **BOT PERMISSIONS**에서 아래 권한 체크
+   - View Channels(채널 보기)
+   - Send Messages(메시지 보내기)
+   - Read Message History (메시지 기록 보기 - 선택)
+
+<img src="./docs/image6.png">
+
+3. 하단에 생성된 URL을 복사해 브라우저에서 열기
+
+<img src="./docs/image6.png">
+
+4. 봇을 추가할 서버 선택 → 권한 승인
+
+
+### 5. 서버 실행
+
+`.env`에 `DISCORD_BOT_TOKEN`을 설정한 뒤 서버를 (재)시작하면 콘솔에 `[Discord] 어댑터 시작됨`이 출력됩니다.
+
+> 💡 명령어 사용법은 위 [Slack 봇 사용법](#-slack-봇-사용법)과 동일합니다.
+>
+> `!등록`, `!질문`, `!목록` 등 `!`로 시작하는 명령어는 어디서든 동작하지만, 명령어 없이 일반 문장으로 질문할 때는 **봇을 멘션(@봇이름)해야** 자동 검색이 동작합니다. 모든 메시지에 응답하지 않으므로 일반 대화 채널에 초대해도 괜찮습니다.
+
+---
+
 ## 🛠️ 기술 스택
 
 - **백엔드:** Node.js, Hono, TypeScript
@@ -130,6 +196,7 @@ Slack 채널에 봇을 초대한 후, 아래 명령어를 사용하세요.
 - **AI:** OpenAI Embeddings (없으면 키워드 검색 fallback)
 - **어드민:** React + Vite
 - **Slack 봇:** @slack/bolt (Socket Mode)
+- **Discord 봇:** discord.js
 
 ---
 
@@ -145,6 +212,7 @@ Slack 채널에 봇을 초대한 후, 아래 명령어를 사용하세요.
 > ⚠️ 버튼을 누른 후에도 아래 환경변수는 직접 입력해야 합니다.
 > - `ADMIN_PASSWORD` — 어드민 페이지 비밀번호
 > - `SLACK_BOT_TOKEN`, `SLACK_SIGNING_SECRET`, `SLACK_APP_TOKEN` — [Slack 앱](https://api.slack.com/apps)에서 발급
+> - `DISCORD_BOT_TOKEN` — [Discord Developer Portal](https://discord.com/developers/applications)에서 발급 (설정 방법은 [Discord 봇 설정](#-discord-봇-설정) 참고)
 
 ### 수동 배포
 
