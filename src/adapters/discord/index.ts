@@ -34,6 +34,7 @@ export async function startDiscordAdapter() {
     if (message.author.bot) return;
     if (!message.channel.isSendable()) return;
 
+    const isMentioned = message.mentions.users.has(client.user!.id);
     const mentionRegex = new RegExp(`<@!?${client.user!.id}>`, "g");
     const text = message.content.replace(mentionRegex, "").trim();
     if (!text) return;
@@ -69,7 +70,7 @@ export async function startDiscordAdapter() {
       const prefix = SEARCH_PREFIXES.find((p) => text.startsWith(p))!;
       const query = text.slice(prefix.length).trim();
       await handleSearch(query, send);
-    } else {
+    } else if (isMentioned) {
       await handleDefaultSearch(text, send);
     }
   });
